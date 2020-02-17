@@ -56,8 +56,267 @@
             <p class="fragment">Decided that was a dumb name and started calling it PostgreSQL</p>
           </section>
         </section>
-				<section>Data Organization</section>
-				<section>Types</section>
+        <section>
+          <section>Data Organization</section>
+          <section>Cluster - manages data, manages users</section>
+          <section>Database - All data is isolated to a specific database</section>
+          <section>Schema - Data can be shared accross schema, useful for namespacing</section>
+        </section>
+        <section>
+          <section>Types</section>
+          <section>
+            <h2>Numeric</h2>
+            <table class="reveal">
+              <tr>
+                <td>smallint</td>
+                <td>2 bytes</td>
+                <td>small-range integer</td>
+                <td>-32768 to +32767</td>
+              </tr>
+              <tr>
+                <td>integer</td>
+                <td>4 bytes</td>
+                <td>typical choice for integer</td>
+                <td>-2147483648 to +2147483647</td>
+              </tr>
+              <tr>
+                <td>bigint</td>
+                <td>8 bytes</td>
+                <td>large-range integer</td>
+                <td>-9223372036854775808 to +9223372036854775807</td>
+              </tr>
+              <tr>
+                <td>decimal or numeric</td>
+                <td>variable</td>
+                <td>user-specified precision, exact</td>
+                <td>up to 131072 digits before decimal; up to 16383 digits after decimal</td>
+              </tr>
+              <tr>
+                <td>real</td>
+                <td>4 bytes</td>
+                <td>variable-precision, inexact</td>
+                <td>6 decimal digits precision</td>
+              </tr>
+              <tr>
+                <td>double precision</td>
+                <td>8 bytes</td>
+                <td>variable-precision, inexact</td>
+                <td>15 decimal digits precision</td>
+              </tr>
+              <tr>
+                <td>smallserial</td>
+                <td>2 bytes</td>
+                <td>small autoincrementing integer</td>
+                <td>1 to 32767</td>
+              </tr>
+              <tr>
+                <td>serial</td>
+                <td>4 bytes</td>
+                <td>autoincrementing integer</td>
+                <td>1 to 2147483647</td>
+              </tr>
+              <tr>
+                <td>bigserial</td>
+                <td>8 bytes</td>
+                <td>large autoincrementing integer</td>
+                <td>1 to 9223372036854775807</td>
+              </tr>
+            </table>
+          </section>
+          <section>
+            <aside class="notes">You must be careful when casting money to another type because you can lose precision</aside>
+            <h2>Monetary</h2>
+            <p>Yup, there is a <code>money</code> type.. just be careful</p>
+            <table>
+              <tr>
+                <td>money</td>
+                <td>8 bytes</td>
+                <td>currency amount</td>
+                <td>-92233720368547758.08 to +92233720368547758.07</td>
+              </tr>
+            </table>
+          </section>
+          <section>
+            <h2>Character</h2>
+            <table>
+              <tr>
+                <td><tt class="TYPE">character varying(<tt class="REPLACEABLE c2">n</tt>)</tt>, <tt class="TYPE">varchar(<tt class="REPLACEABLE c2">n</tt>)</tt></td>
+                <td>variable-length with limit</td>
+              </tr>
+              <tr>
+                <td><tt class="TYPE">character(<tt class="REPLACEABLE c2">n</tt>)</tt>, <tt class="TYPE">char(<tt class="REPLACEABLE c2">n</tt>)</tt></td>
+                <td>fixed-length, blank padded</td>
+              </tr>
+              <tr>
+                <td><tt class="TYPE">text</tt></td>
+                <td>variable unlimited length</td>
+              </tr>
+            </table>
+          </section>
+          <section>
+            <aside class="notes">The first few bytes are used  as an escape character</aside>
+            <h2>Binary</h2>
+            <table>
+              <tr>
+                <td>bytea</td>
+                <td>1 or 4 bytes plus the binary string</td>
+                <td>variable length</td>
+              </tr>
+            </table>
+          </section>
+          <section>
+            <h2>Date</h2>
+            <aside class="notes">Supports just about every input format that you can think of</aside>
+            <table border="1" class="CALSTABLE">
+              <tbody>
+                <tr>
+                  <td><tt class="TYPE">timestamp [ (<tt class="REPLACEABLE c2">p</tt>) ] [ without time zone ]</tt></td>
+                  <td>8 bytes</td>
+                  <td>4713 BC</td>
+                  <td>294276 AD</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">timestamp [ (<tt class="REPLACEABLE c2">p</tt>) ] with time zone</tt></td>
+                  <td>8 bytes</td>
+                  <td>4713 BC</td>
+                  <td>294276 AD</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">date</tt></td>
+                  <td>4 bytes (1 day precision)</td>
+                  <td>4713 BC</td>
+                  <td>5874897 AD</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">time [ (<tt class="REPLACEABLE c2">p</tt>) ] [ without time zone ]</tt></td>
+                  <td>8 bytes</td>
+                  <td>00:00:00</td>
+                  <td>24:00:00</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">time [ (<tt class="REPLACEABLE c2">p</tt>) ] with time zone</tt></td>
+                  <td>12 bytes</td>
+                  <td>00:00:00+1459</td>
+                  <td>24:00:00-1459</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">interval [ <tt class="REPLACEABLE c2">fields</tt> ] [ (<tt class="REPLACEABLE c2">p</tt>) ]</tt></td>
+                  <td>16 bytes</td>
+                  <td>-178000000 years</td>
+                  <td>178000000 years</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section>
+            <h2>Boolean</h2>
+            <p>Uses 1 byte</p>
+            <table>
+              <tr>
+                <td>true</td>
+                <td>false</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>yes</td>
+                <td>no</td>
+              </tr>
+              <tr>
+                <td>on</td>
+                <td>off</td>
+              </tr>
+            </table>
+          </section>
+          <section>
+            <h2>Enumerated</h2>
+            <pre class="fragment">
+              <code data-trim>CREATE TYPE day AS ENUM ('sunday', 'monday', 'tuesday', ...);</code>
+            </pre>
+            <pre class="fragment">
+              <code data-trim>SELECT * FROM orders WHERE order_day > 'tuesday';</code>
+            </pre>
+          </section>
+          <section>
+            <h2>Geometric</h2>
+            <table>
+              <tbody>
+                <tr>
+                  <td><tt class="TYPE">point</tt></td>
+                  <td>16 bytes</td>
+                  <td>Point on a plane</td>
+                  <td>(x,y)</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">line</tt></td>
+                  <td>32 bytes</td>
+                  <td>Infinite line</td>
+                  <td>{A,B,C}</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">lseg</tt></td>
+                  <td>32 bytes</td>
+                  <td>Finite line segment</td>
+                  <td>((x1,y1),(x2,y2))</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">box</tt></td>
+                  <td>32 bytes</td>
+                  <td>Rectangular box</td>
+                  <td>((x1,y1),(x2,y2))</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">path</tt></td>
+                  <td>16+16n bytes</td>
+                  <td>Closed path (similar to polygon)</td>
+                  <td>((x1,y1),...)</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">path</tt></td>
+                  <td>16+16n bytes</td>
+                  <td>Open path</td>
+                  <td>[(x1,y1),...]</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">polygon</tt></td>
+                  <td>40+16n bytes</td>
+                  <td>Polygon (similar to closed path)</td>
+                  <td>((x1,y1),...)</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">circle</tt></td>
+                  <td>24 bytes</td>
+                  <td>Circle</td>
+                  <td>&lt;(x,y),r&gt; (center point and radius)</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section>
+            <h2>Network Address</h2>
+            <table>
+              <tbody>
+                <tr>
+                  <td><tt class="TYPE">cidr</tt></td>
+                  <td>7 or 19 bytes</td>
+                  <td>IPv4 and IPv6 networks</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">inet</tt></td>
+                  <td>7 or 19 bytes</td>
+                  <td>IPv4 and IPv6 hosts and networks</td>
+                </tr>
+                <tr>
+                  <td><tt class="TYPE">macaddr</tt></td>
+                  <td>6 bytes</td>
+                  <td>MAC addresses</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
 				<section>Indexes</section>
 				<section>Text Search</section>
 				<section>Foreign Data Wrappers</section>

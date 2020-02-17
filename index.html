@@ -118,47 +118,22 @@
           </section>
           <section>
             <h2>Date</h2>
-            <aside class="notes">Supports just about every input format that you can think of</aside>
-            <table border="1" class="CALSTABLE">
-              <tbody>
-                <tr>
-                  <td><tt class="TYPE">timestamp [ (<tt class="REPLACEABLE c2">p</tt>) ] [ without time zone ]</tt></td>
-                  <td>8 bytes</td>
-                  <td>4713 BC</td>
-                  <td>294276 AD</td>
-                </tr>
-                <tr>
-                  <td><tt class="TYPE">timestamp [ (<tt class="REPLACEABLE c2">p</tt>) ] with time zone</tt></td>
-                  <td>8 bytes</td>
-                  <td>4713 BC</td>
-                  <td>294276 AD</td>
-                </tr>
-                <tr>
-                  <td><tt class="TYPE">date</tt></td>
-                  <td>4 bytes (1 day precision)</td>
-                  <td>4713 BC</td>
-                  <td>5874897 AD</td>
-                </tr>
-                <tr>
-                  <td><tt class="TYPE">time [ (<tt class="REPLACEABLE c2">p</tt>) ] [ without time zone ]</tt></td>
-                  <td>8 bytes</td>
-                  <td>00:00:00</td>
-                  <td>24:00:00</td>
-                </tr>
-                <tr>
-                  <td><tt class="TYPE">time [ (<tt class="REPLACEABLE c2">p</tt>) ] with time zone</tt></td>
-                  <td>12 bytes</td>
-                  <td>00:00:00+1459</td>
-                  <td>24:00:00-1459</td>
-                </tr>
-                <tr>
-                  <td><tt class="TYPE">interval [ <tt class="REPLACEABLE c2">fields</tt> ] [ (<tt class="REPLACEABLE c2">p</tt>) ]</tt></td>
-                  <td>16 bytes</td>
-                  <td>-178000000 years</td>
-                  <td>178000000 years</td>
-                </tr>
-              </tbody>
-            </table>
+            <aside class="notes">
+              <ul>
+                <li>
+                  Supports just about every input format that you can think of.
+                </li>
+                <li>microsecond precision</li>
+              </ul>
+            </aside>
+            <ul>
+              <li>timestamp [ without time zone ]</li>
+              <li>timestamp [ with time zone ]</li>
+              <li>date</li>
+              <li>time [ without time zone ]</li>
+              <li>time [ with time zone ]</li>
+              <li>interval</li>
+            </ul>
           </section>
           <section>
             <h2>Boolean</h2>
